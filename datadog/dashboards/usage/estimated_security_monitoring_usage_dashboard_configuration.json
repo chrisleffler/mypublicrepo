@@ -1,0 +1,1127 @@
+{
+    "title": "Security Monitoring - Estimated Usage",
+    "description": "## Security Monitoring\n\nThis dashboard aims to give you insights into the Datadog Security Monitoring estimated usage metrics.\n\nSee the [Security Monitoring documentation](https://docs.datadoghq.com/security_platform/security_monitoring/) to learn more about the product.\n\nSee the [Security Monitoring pricing page](https://www.datadoghq.com/pricing/?product=security-monitoring#security-monitoring) to learn more about the different plans available.",
+    "widgets": [
+        {
+            "id": 6552793753419422,
+            "definition": {
+                "title": "Analyzed bytes",
+                "title_size": "16",
+                "title_align": "left",
+                "type": "query_value",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1"
+                            }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.security_monitoring.analyzed_bytes{*}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query1",
+                                "aggregator": "sum"
+                            }
+                        ]
+                    }
+                ],
+                "autoscale": true,
+                "precision": 2
+            },
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 3,
+                "height": 2
+            }
+        },
+        {
+            "id": 6343744624606678,
+            "definition": {
+                "title": "Analyzed logs",
+                "title_size": "16",
+                "title_align": "left",
+                "type": "query_value",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1"
+                            }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.security_monitoring.analyzed_events{*}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query1",
+                                "aggregator": "sum"
+                            }
+                        ]
+                    }
+                ],
+                "autoscale": true,
+                "custom_unit": "logs",
+                "precision": 2
+            },
+            "layout": {
+                "x": 3,
+                "y": 0,
+                "width": 3,
+                "height": 2
+            }
+        },
+        {
+            "id": 3275218952380954,
+            "definition": {
+                "title": "Analyzed logs vs Indexed logs vs Ingested logs #",
+                "title_size": "16",
+                "title_align": "left",
+                "show_legend": true,
+                "legend_layout": "auto",
+                "legend_columns": [
+                    "avg",
+                    "min",
+                    "max",
+                    "value",
+                    "sum"
+                ],
+                "type": "timeseries",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1"
+                            }
+                        ],
+                        "response_format": "timeseries",
+                        "on_right_yaxis": false,
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.security_monitoring.analyzed_events{*}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query1"
+                            }
+                        ],
+                        "style": {
+                            "palette": "orange",
+                            "line_type": "solid",
+                            "line_width": "normal"
+                        },
+                        "display_type": "line"
+                    },
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1"
+                            }
+                        ],
+                        "response_format": "timeseries",
+                        "on_right_yaxis": true,
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.logs.ingested_events{datadog_is_excluded:false}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query1"
+                            }
+                        ],
+                        "style": {
+                            "palette": "cool",
+                            "line_type": "solid",
+                            "line_width": "normal"
+                        },
+                        "display_type": "line"
+                    },
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query0"
+                            }
+                        ],
+                        "response_format": "timeseries",
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.logs.ingested_events{*}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query0"
+                            }
+                        ],
+                        "style": {
+                            "palette": "dog_classic",
+                            "line_type": "solid",
+                            "line_width": "normal"
+                        },
+                        "display_type": "line"
+                    }
+                ],
+                "yaxis": {
+                    "include_zero": false
+                },
+                "right_yaxis": {
+                    "include_zero": false
+                },
+                "markers": []
+            },
+            "layout": {
+                "x": 6,
+                "y": 0,
+                "width": 6,
+                "height": 2
+            }
+        },
+        {
+            "id": 5539510496389024,
+            "definition": {
+                "title": "Analyzed bytes per source",
+                "title_size": "16",
+                "title_align": "left",
+                "type": "toplist",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1",
+                                "limit": {
+                                    "count": 50,
+                                    "order": "desc"
+                                }
+                            }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query1",
+                                "aggregator": "sum"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 2,
+                "width": 4,
+                "height": 7
+            }
+        },
+        {
+            "id": 1644703848874038,
+            "definition": {
+                "title": "Analyzed logs per entity",
+                "title_size": "16",
+                "title_align": "left",
+                "type": "toplist",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1",
+                                "limit": {
+                                    "count": 50,
+                                    "order": "desc"
+                                }
+                            }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.security_monitoring.entities.analyzed_bytes{*} by {entity}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query1",
+                                "aggregator": "sum"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "layout": {
+                "x": 4,
+                "y": 2,
+                "width": 4,
+                "height": 7
+            }
+        },
+        {
+            "id": 7526103588751068,
+            "definition": {
+                "title": "Analyzed logs per rule",
+                "title_size": "16",
+                "title_align": "left",
+                "type": "toplist",
+                "requests": [
+                    {
+                        "formulas": [
+                            {
+                                "formula": "query1",
+                                "limit": {
+                                    "count": 50,
+                                    "order": "desc"
+                                }
+                            }
+                        ],
+                        "response_format": "scalar",
+                        "queries": [
+                            {
+                                "query": "sum:datadog.estimated_usage.security_monitoring.rules.analyzed_bytes{*} by {rule}.as_count()",
+                                "data_source": "metrics",
+                                "name": "query1",
+                                "aggregator": "sum"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "layout": {
+                "x": 8,
+                "y": 2,
+                "width": 4,
+                "height": 7
+            }
+        },
+        {
+            "id": 2495007734117906,
+            "definition": {
+                "title": "Ingestion: Ingested Bytes",
+                "type": "group",
+                "background_color": "blue",
+                "show_title": true,
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 3140389630790260,
+                        "definition": {
+                            "title": "Analyzed bytes",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {},
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.analyzed_bytes{*}.as_count()",
+                                            "aggregator": "sum"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 3,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 6798992646351070,
+                        "definition": {
+                            "title": "Analyzed bytes",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "time": {},
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "forecast(query1, 'seasonal', 1)"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.analyzed_bytes{*}.as_count()"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "on_right_yaxis": false,
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "bars"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": false
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 3,
+                            "y": 0,
+                            "width": 9,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 6066799451924882,
+                        "definition": {
+                            "title": "Analyzed bytes per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {},
+                            "type": "toplist",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}.as_count()",
+                                            "aggregator": "sum"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "query1",
+                                            "limit": {
+                                                "count": 50,
+                                                "order": "desc"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 4,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 5554495524784648,
+                        "definition": {
+                            "title": "Analyzed bytes per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "time": {},
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}.as_count()"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "on_right_yaxis": false,
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 2,
+                            "width": 8,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 7012213432940210,
+                        "definition": {
+                            "title": "Contribution % to the amount of bytes analyzed per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {},
+                            "type": "toplist",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}.as_count()",
+                                            "aggregator": "avg"
+                                        },
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*}.as_count()",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "(query1 / query2) * 100",
+                                            "limit": {
+                                                "count": 50,
+                                                "order": "desc"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 6,
+                            "width": 4,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 8474698101818746,
+                        "definition": {
+                            "title": "Contribution % to the amount of bytes analyzed per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "time": {},
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "(query1 / query2) * 100"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}.as_count()"
+                                        },
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*}.as_count()"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "on_right_yaxis": false,
+                                    "style": {
+                                        "palette": "cool",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                }
+                            ],
+                            "yaxis": {
+                                "min": "0",
+                                "max": "100"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 6,
+                            "width": 8,
+                            "height": 4
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 9,
+                "width": 12,
+                "height": 11
+            }
+        },
+        {
+            "id": 6690824491662456,
+            "definition": {
+                "title": "Management, as in log management",
+                "type": "group",
+                "background_color": "gray",
+                "show_title": true,
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 666066186598628,
+                        "definition": {
+                            "type": "note",
+                            "content": "This scatter plot displays the amount of analyzed logs ingested vs the combined size of those analyzed logs in bytes for each one of your source.\n\nThe more a source is in the upper right corner the more it might impact your security costs as it means it's ingesting lots of logs and the combined size of all those logs is \"very big\"",
+                            "background_color": "blue",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "show_tick": true,
+                            "tick_pos": "50%",
+                            "tick_edge": "right"
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 2,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 4907985128663654,
+                        "definition": {
+                            "title": "Number of logs vs Size of logs per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "type": "scatterplot",
+                            "requests": {
+                                "table": {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1",
+                                            "dimension": "x"
+                                        },
+                                        {
+                                            "formula": "query2",
+                                            "dimension": "y"
+                                        }
+                                    ],
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "aggregator": "sum"
+                                        },
+                                        {
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_events{*} by {source}.as_count()",
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "aggregator": "sum"
+                                        }
+                                    ]
+                                }
+                            },
+                            "xaxis": {
+                                "include_zero": false,
+                                "scale": "log"
+                            },
+                            "yaxis": {
+                                "include_zero": false,
+                                "scale": "log"
+                            },
+                            "color_by_groups": [
+                                "service"
+                            ]
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 0,
+                            "width": 10,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 6993081319188498,
+                        "definition": {
+                            "type": "note",
+                            "content": "Relative and absolute change of the amount of analyzed logs per source compared to last week.  \n.     \n   \n----------------------------------------------------------------------     \n   \n.   \nRelative and absolute change of the amount of analyzed logs per source compared to last month.",
+                            "background_color": "green",
+                            "font_size": "14",
+                            "text_align": "left",
+                            "show_tick": true,
+                            "tick_pos": "50%",
+                            "tick_edge": "right"
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 4,
+                            "width": 2,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 8645525443329152,
+                        "definition": {
+                            "title": "% of analyzed volume change compared to last week",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {
+                                "live_span": "1w"
+                            },
+                            "type": "change",
+                            "requests": [
+                                {
+                                    "order_by": "change",
+                                    "order_dir": "desc",
+                                    "compare_to": "week_before",
+                                    "q": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}",
+                                    "increase_good": false,
+                                    "change_type": "relative"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 4,
+                            "width": 5,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 1176432783788764,
+                        "definition": {
+                            "title": "# of analyzed volume change compared to last week",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {
+                                "live_span": "1w"
+                            },
+                            "type": "change",
+                            "requests": [
+                                {
+                                    "order_by": "change",
+                                    "order_dir": "desc",
+                                    "compare_to": "week_before",
+                                    "q": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}",
+                                    "increase_good": false,
+                                    "change_type": "absolute"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 7,
+                            "y": 4,
+                            "width": 5,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 1473268488367874,
+                        "definition": {
+                            "title": "% of analyzed volume change compared to last month",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {
+                                "live_span": "1mo"
+                            },
+                            "type": "change",
+                            "requests": [
+                                {
+                                    "order_by": "change",
+                                    "order_dir": "desc",
+                                    "compare_to": "month_before",
+                                    "q": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}",
+                                    "increase_good": false,
+                                    "change_type": "relative"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 2,
+                            "y": 6,
+                            "width": 5,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 8910751823217706,
+                        "definition": {
+                            "title": "# of analyzed volume change compared to last month",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {
+                                "live_span": "1mo"
+                            },
+                            "type": "change",
+                            "requests": [
+                                {
+                                    "order_by": "change",
+                                    "order_dir": "desc",
+                                    "compare_to": "month_before",
+                                    "q": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_bytes{*} by {source}",
+                                    "increase_good": false,
+                                    "change_type": "absolute"
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 7,
+                            "y": 6,
+                            "width": 5,
+                            "height": 2
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 12,
+                "height": 9,
+                "is_column_break": true
+            }
+        },
+        {
+            "id": 564521826686982,
+            "definition": {
+                "title": "Ingestion: number of logs",
+                "type": "group",
+                "background_color": "purple",
+                "show_title": true,
+                "layout_type": "ordered",
+                "widgets": [
+                    {
+                        "id": 3473265475092990,
+                        "definition": {
+                            "title": "Analyzed logs",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {},
+                            "type": "query_value",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.analyzed_events{*}.as_count()",
+                                            "aggregator": "sum"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "autoscale": true,
+                            "custom_unit": "logs",
+                            "precision": 2
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 0,
+                            "width": 3,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 6609381276279116,
+                        "definition": {
+                            "title": "Analyzed logs",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "time": {},
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "forecast(query1, 'seasonal', 1)"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.analyzed_events{*}.as_count()"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "on_right_yaxis": false,
+                                    "style": {
+                                        "palette": "purple",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "bars"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": false
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 3,
+                            "y": 0,
+                            "width": 9,
+                            "height": 2
+                        }
+                    },
+                    {
+                        "id": 8505779798471122,
+                        "definition": {
+                            "title": "Analyzed logs per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {},
+                            "type": "toplist",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_events{*} by {source}.as_count()",
+                                            "aggregator": "sum"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "query1",
+                                            "limit": {
+                                                "count": 50,
+                                                "order": "desc"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 2,
+                            "width": 4,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 8796454055115538,
+                        "definition": {
+                            "title": "Analyzed logs per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "time": {},
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "query1"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_events{*} by {source}.as_count()"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "on_right_yaxis": false,
+                                    "style": {
+                                        "palette": "purple",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "line"
+                                }
+                            ],
+                            "yaxis": {
+                                "include_zero": true,
+                                "scale": "linear",
+                                "label": "",
+                                "min": "auto",
+                                "max": "auto"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 2,
+                            "width": 8,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 2209625948290228,
+                        "definition": {
+                            "title": "Contribution % to the amount of Analyzed logs per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "time": {},
+                            "type": "toplist",
+                            "requests": [
+                                {
+                                    "response_format": "scalar",
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_events{*} by {source}.as_count()",
+                                            "aggregator": "avg"
+                                        },
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_events{*}.as_count()",
+                                            "aggregator": "avg"
+                                        }
+                                    ],
+                                    "formulas": [
+                                        {
+                                            "formula": "(query1 / query2) * 100",
+                                            "limit": {
+                                                "count": 50,
+                                                "order": "desc"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        "layout": {
+                            "x": 0,
+                            "y": 6,
+                            "width": 4,
+                            "height": 4
+                        }
+                    },
+                    {
+                        "id": 3041758933373202,
+                        "definition": {
+                            "title": "Contribution % to the amount of Analyzed logs per source",
+                            "title_size": "16",
+                            "title_align": "left",
+                            "show_legend": false,
+                            "legend_layout": "auto",
+                            "legend_columns": [
+                                "avg",
+                                "min",
+                                "max",
+                                "value",
+                                "sum"
+                            ],
+                            "time": {},
+                            "type": "timeseries",
+                            "requests": [
+                                {
+                                    "formulas": [
+                                        {
+                                            "formula": "(query1 / query2) * 100"
+                                        }
+                                    ],
+                                    "queries": [
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query1",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_events{*} by {source}.as_count()"
+                                        },
+                                        {
+                                            "data_source": "metrics",
+                                            "name": "query2",
+                                            "query": "sum:datadog.estimated_usage.security_monitoring.sources.analyzed_events{*}.as_count()"
+                                        }
+                                    ],
+                                    "response_format": "timeseries",
+                                    "on_right_yaxis": false,
+                                    "style": {
+                                        "palette": "purple",
+                                        "line_type": "solid",
+                                        "line_width": "normal"
+                                    },
+                                    "display_type": "area"
+                                }
+                            ],
+                            "yaxis": {
+                                "min": "0",
+                                "max": "100"
+                            },
+                            "markers": []
+                        },
+                        "layout": {
+                            "x": 4,
+                            "y": 6,
+                            "width": 8,
+                            "height": 4
+                        }
+                    }
+                ]
+            },
+            "layout": {
+                "x": 0,
+                "y": 9,
+                "width": 12,
+                "height": 11
+            }
+        }
+    ],
+    "template_variables": [],
+    "layout_type": "ordered",
+    "is_read_only": false,
+    "notify_list": [],
+    "reflow_type": "fixed",
+    "id": "kkk-w65-kqk"
+}
