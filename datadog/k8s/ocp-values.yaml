@@ -1,0 +1,40 @@
+datadog:
+  apiKey: <DATADOG_API_KEY>
+  appKey: <DATADOG_APP_KEY>
+  # Uncomment site: if using a Datadog Organization outside of US1
+  # site: ddog-gov.com
+  clusterName: <CLUSTER_NAME>
+  criSocketPath: /var/run/crio/crio.sock
+  # Depending on your DNS/SSL setup, it might not be possible to verify the Kubelet cert properly
+  # If you have proper CA, you can switch it to true
+  kubelet:
+    tlsVerify: false
+  apm:
+    portEnabled: true
+  logs:
+    enabled: true
+    containerCollectAll: true
+  # Uncomment if running OCP on a supported cloud platform
+  # useHostNetwork: true
+  processAgent:
+    processCollection: true
+  kubeStateMetricsCore:
+    enabled: true
+  kubeStateMetricsEnabled: false
+  networkMonitoring:
+    enabled: true
+agents:
+  podSecurity:
+    securityContextConstraints:
+      create: true
+  tolerations:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+    operator: Exists
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/infra
+    operator: Exists
+clusterAgent:
+  podSecurity:
+    securityContextConstraints:
+      create: true
