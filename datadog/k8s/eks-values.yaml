@@ -1,0 +1,52 @@
+#
+## 1. Install Helm -- https://v3.helm.sh/docs/intro/install/
+## 2. Run following commands:
+##       helm repo add datadog https://helm.datadoghq.com
+##       helm repo update
+## 3. Run following command:
+##       kubectl create ns datadog
+## 4. Run following command:
+##       kubectl create secret generic datadog-keys -n datadog --from-literal=api-key=<API-KEY>
+## 5. Run following command:
+##       helm install datadog datadog/datadog -n datadog -f eks-values.yaml
+#
+
+datadog:
+  apiKey: api-key
+  site: ddog-gov.com
+  criSocketPath: /run/dockershim.sock
+  env:
+  - name: DD_AUTOCONFIG_INCLUDE_FEATURES
+    value: "containerd"
+  apm:
+    portEnabled: true
+  logs:
+    enabled: true
+    containerCollectAll: true
+  processAgent:
+    processCollection: true
+  dogstatsd:
+    useHostPort: true
+  kubeStateMetricsCore:
+    enabled: true
+  kubeStateMetricsEnabled: false
+  kubelet:
+    tlsVerify: false
+  networkMonitoring:
+    enabled: true
+clusterAgent:
+  confd:
+    kube_apiserver_metrics.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+        - prometheus_url: https://kubernetes.default/metrics
+          ssl_ca_cert: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          bearer_token_auth: true
+    kube_controller_manager.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+        - prometheus_url: https://kubernetes.default/metrics
+          ssl_ca_cert: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          bearer_token_auth: true
