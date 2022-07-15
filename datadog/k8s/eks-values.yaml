@@ -12,12 +12,8 @@
 #
 
 datadog:
-  apiKey: api-key
+  apiKey: datadog-keys
   site: ddog-gov.com
-  criSocketPath: /run/dockershim.sock
-  env:
-  - name: DD_AUTOCONFIG_INCLUDE_FEATURES
-    value: "containerd"
   apm:
     portEnabled: true
   logs:
