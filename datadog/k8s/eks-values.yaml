@@ -1,16 +1,3 @@
-#
-## 1. Install Helm -- https://v3.helm.sh/docs/intro/install/
-## 2. Run following commands:
-##       helm repo add datadog https://helm.datadoghq.com
-##       helm repo update
-## 3. Run following command:
-##       kubectl create ns datadog
-## 4. Run following command:
-##       kubectl create secret generic datadog-keys -n datadog --from-literal=api-key=<API-KEY>
-## 5. Run following command:
-##       helm install datadog datadog/datadog -n datadog -f eks-values.yaml
-#
-
 datadog:
   apiKey: datadog-keys
   # Uncomment site: if using a Datadog Organization outside of US1
