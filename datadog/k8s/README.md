@@ -2,6 +2,8 @@
 
 1. Install [Helm](https://v3.helm.sh/docs/intro/install/)
 
+2. Add Datadog Helm Repo
+
 ```bash
 helm repo add datadog https://helm.datadoghq.com
 helm repo update
