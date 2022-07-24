@@ -13,7 +13,8 @@
 
 datadog:
   apiKey: datadog-keys
-  site: ddog-gov.com
+  # Uncomment site: if using a Datadog Organization outside of US1
+  # site: ddog-gov.com
   apm:
     portEnabled: true
   logs:

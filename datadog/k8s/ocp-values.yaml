@@ -1,6 +1,5 @@
 datadog:
-  apiKey: <DATADOG_API_KEY>
-  appKey: <DATADOG_APP_KEY>
+  apiKey: datadog-keys
   # Uncomment site: if using a Datadog Organization outside of US1
   # site: ddog-gov.com
   clusterName: <CLUSTER_NAME>
@@ -11,6 +10,8 @@ datadog:
     tlsVerify: false
   apm:
     portEnabled: true
+  dogstatsd:
+    useHostPort: true
   logs:
     enabled: true
     containerCollectAll: true
