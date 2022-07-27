@@ -1,5 +1,5 @@
 datadog:
-  apiKey: datadog-keys
+  apiKeyExistingSecret: datadog-keys
   # Uncomment site: if using a Datadog Organization outside of US1
   # site: ddog-gov.com
   clusterName: <CLUSTER_NAME>

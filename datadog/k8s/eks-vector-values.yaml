@@ -4,6 +4,7 @@ datadog:
   # site: ddog-gov.com
   apm:
     portEnabled: true
+  containerExclude: "name:vector"
   logs:
     enabled: true
     containerCollectAll: true
@@ -34,3 +35,14 @@ clusterAgent:
         - prometheus_url: https://kubernetes.default/metrics
           ssl_ca_cert: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
           bearer_token_auth: true
+agents:
+  useConfigMap: true
+  customAgentConfig:
+    kubelet_tls_verify: false
+    vector:
+      logs:
+        enabled: true
+        url: "http://vector.vector:8282"
+      metrics:
+        enabled: true
+        url: "http://vector.vector:8282"
