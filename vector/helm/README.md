@@ -33,4 +33,4 @@ kubectl create secret generic dd-sand-keys -n vector --from-literal=sand-api-key
 helm install vector vector/vector -n vector -f vector-values.yaml
 ```
 
-7. [Install the Datadog Agent on the cluster](../../datadog/k8s/README.md).
+7. [Install the Datadog Agent on the cluster](../../datadog/k8s/).
