@@ -50,6 +50,6 @@ agents:
         enabled: true
         url: "http://vector.vector:8282"
       ### Only valid if running DDOG Agent > 7.39
-      traces:
-        enabled: true
-        url: "http://vector.vector:8282"
+      # traces:
+      #   enabled: true
+      #   url: "http://vector.vector:8282"
