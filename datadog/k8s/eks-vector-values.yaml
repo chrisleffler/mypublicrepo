@@ -4,10 +4,10 @@ datadog:
   # site: ddog-gov.com
   apm:
     portEnabled: true
-  containerExclude: "name:vector"
   logs:
     enabled: true
     containerCollectAll: true
+    autoMultiLineDetection: true
   processAgent:
     processCollection: true
   dogstatsd:
@@ -39,10 +39,17 @@ agents:
   useConfigMap: true
   customAgentConfig:
     kubelet_tls_verify: false
+    ### Use below if running DDOG Agent < 7.39
+    apm_config:
+      apm_dd_url: "http://vector.vector:8282"
     vector:
       logs:
         enabled: true
         url: "http://vector.vector:8282"
       metrics:
+        enabled: true
+        url: "http://vector.vector:8282"
+      ### Only valid if running DDOG Agent > 7.39
+      traces:
         enabled: true
         url: "http://vector.vector:8282"

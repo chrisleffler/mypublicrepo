@@ -149,11 +149,6 @@ env:
       secretKeyRef:
         name: vector-keys
         key: op-api-key
-  - name: OP_APP_KEY
-    valueFrom:
-      secretKeyRef:
-        name: vector-keys
-        key: op-app-key
   - name: OP_CONF_KEY
     valueFrom:
       secretKeyRef:
@@ -284,59 +279,87 @@ customConfig:
   #       codec: json
     enterprise:
       api_key: ${OP_API_KEY}
-      application_key: ${OP_APP_KEY}
       configuration_key: ${OP_CONF_KEY}
       site: datadoghq.com
+  
     sources:
       my_datadog_agent:
         type: datadog_agent
         address: 0.0.0.0:8282
         multiple_outputs: true
         store_api_key: false
+   
     transforms:
-      tagged_by_vector:
+      remap_trace_namespace:
         type: remap
-        inputs:
-          - my_datadog_agent.metrics
+        inputs: 
+          - my_datadog_agent.traces
         source: |-
-          .tags.sender = "vector"
-      route_namespace_metrics:
+          tags = get!(value: .tags, path: ["_dd.tags.container"])
+          json = parse_key_value!(value: tags, key_value_delimiter: ":", field_delimiter:",")
+          .tags.kube_namespace = get!(value: json, path: ["kube_namespace"])
+      route_traces:
         type: route
-        inputs:
-          - tagged_by_vector
+        inputs: 
+          - remap_trace_namespace
         route: 
-          jenkins: .tags.kube_namespace == "jenkins"
-          system: .namespace == "system"
-          kube_state: .namespace == "kubernetes_state"
-      route_namespace_logs:
-        type: route
-        inputs:
+          vote: .tags.kube_namespace == "vote"
+      
+      remap_log_namespace:
+        type: remap
+        inputs: 
           - my_datadog_agent.logs
-        route: 
-          jenkins: .tags.kube_namespace == "jenkins"
+        source: |-
+          tags = get!(value: ., path: ["ddtags"])
+          json = parse_key_value!(value: tags, key_value_delimiter: ":", field_delimiter:",")
+          .tags.kube_namespace = get!(value: json, path: ["kube_namespace"])
+      route_logs:
+        type: route
+        inputs: 
+          - remap_log_namespace
+        route:
+          vote: .tags.kube_namespace == "vote"
+
     sinks:
+      # test_traces:
+      #   type: console
+      #   inputs:
+      #     - remap_log_namespace
+      #   target: stdout
+      #   encoding: 
+      #     codec: json
       my_datadog_sandbox_metrics:
         type: datadog_metrics
         inputs: 
-          - tagged_by_vector
+          - my_datadog_agent.metrics
+        default_api_key: ${DD_SAND_KEY}
+      my_datadog_sandbox_traces:
+        type: datadog_traces
+        inputs: 
+          - route_traces._unmatched
         default_api_key: ${DD_SAND_KEY}
       my_datadog_sandbox_logs:
         type: datadog_logs
         inputs: 
-          - my_datadog_agent.logs
+          - route_logs._unmatched
         default_api_key: ${DD_SAND_KEY}
+      
       my_datadog_sandbox2_metrics:
         type: datadog_metrics
         inputs: 
-          - route_namespace_metrics.jenkins
-          - route_namespace_metrics.system
-          - route_namespace_metrics.kube_state
+          - my_datadog_agent.metrics
+        default_api_key: ${DD_SAND_KEY}
+      my_datadog_sandbox2_traces:
+        type: datadog_traces
+        inputs: 
+          - route_traces.vote
         default_api_key: ${DD_SAND2_KEY}
       my_datadog_sandbox2_logs:
         type: datadog_logs
         inputs: 
-          - route_namespace_logs.jenkins
+          - route_logs.vote
         default_api_key: ${DD_SAND2_KEY}
+
   
 # extraVolumes -- Additional Volumes to use with Vector Pods
 extraVolumes: []
