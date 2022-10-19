@@ -25,6 +25,7 @@ kubectl create secret generic datadog-keys -n datadog --from-literal=api-key=<AP
 
 - [EKS](eks-values.yaml)
 - [Red Hat OpenShift Container Platform v4](ocp-values.yaml)
+- [AKS](aks-values.yaml)
 
 ```bash
 helm install datadog datadog/datadog -n datadog -f values.yaml

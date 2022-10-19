@@ -1,0 +1,29 @@
+datadog:
+  apiKeyExistingSecret: datadog-keys
+  # Uncomment site: if using a Datadog Organization outside of US1
+  # site: ddog-gov.com
+  apm:
+    portEnabled: true
+  logs:
+    enabled: true
+    containerCollectAll: true
+  processAgent:
+    processCollection: true
+  dogstatsd:
+    useHostPort: true
+  kubeStateMetricsCore:
+    enabled: true
+  kubeStateMetricsEnabled: false
+  kubelet:
+    tlsVerify: false
+  networkMonitoring:
+    enabled: true
+clusterAgent:
+  confd:
+    kube_apiserver_metrics.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+        - prometheus_url: https://kubernetes.default/metrics
+          ssl_ca_cert: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          bearer_token_auth: true
