@@ -8,6 +8,7 @@ datadog:
   # If you have proper CA, you can switch kubelet.tlsVerify to true
   kubelet:
     tlsVerify: false
+  inventories_configuration_enabled: true
   apm:
     portEnabled: true
   dogstatsd:

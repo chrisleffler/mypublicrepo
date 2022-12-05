@@ -2,6 +2,7 @@ datadog:
   apiKeyExistingSecret: datadog-keys
   # Uncomment site: if using a Datadog Organization outside of US1
   # site: ddog-gov.com
+  inventories_configuration_enabled: true
   apm:
     portEnabled: true
   logs:
