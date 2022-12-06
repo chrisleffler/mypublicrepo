@@ -13,9 +13,10 @@ resource "datadog_monitor" "infra" {
 
   notify_no_data    = false
   renotify_interval = 60
+  renotify_statuses = ["alert"]
 
   notify_audit = false
   include_tags = true
 
-  tags = ["terraform:true"]
+  tags = ["terraform:true","estimated_usage:true"]
 }
