@@ -10,6 +10,6 @@ terraform init
 terraform apply -auto-approve
 ```
 
-4. Add notification destinations to the estimated usage monitors.
+4. Add @mention notifications to the estimated usage monitors.
 
 >![Add @mention to Datadog monitor.](./images/add-notification.gif)
