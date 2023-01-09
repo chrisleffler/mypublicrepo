@@ -10,10 +10,16 @@ module "create_org" {
 
 #Upload SAML Metadata to child org
 resource "null_resource" "metadata-upload" {
+  
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+  
   provisioner "local-exec" {
       command = "python3 ${path.module}/upload_meta.py"
 
       environment = {
+        IDP_META_PATH = var.idp_meta_path
         DD_SITE = var._site
         DD_API_KEY = module.create_org.org_api_key[0].key
         DD_APP_KEY = module.create_org.org_app_key[0].hash
@@ -31,7 +37,7 @@ resource "datadog_organization_settings" "organization" {
       enabled = true
     }
     saml_autocreate_users_domains{
-      domains = ["datadog.com","gmail.com"]
+      domains = ["gmail.com"]
       enabled = true
     }
     saml_autocreate_access_role = "st"

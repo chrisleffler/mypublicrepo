@@ -25,3 +25,9 @@ variable "_site" {
         error_message = "Datadog Site must be one of the following options: datadoghq.com, datadoghq.eu, or ddog-gov.com!"
       }
 }
+
+variable "idp_meta_path" {
+  type        = string
+  description = "Full path to your IDP Metadata in XML format"
+  sensitive   = false
+}
