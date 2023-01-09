@@ -1,6 +1,6 @@
 # Create a new Datadog Child Organization
 resource "datadog_child_organization" "organization" {
-  name = "myfirstterraorg"
+  name = var.datadog_org_name
 }
 
 terraform {
@@ -15,5 +15,5 @@ provider "datadog" {
       api_key = var.datadog_api_key
       app_key = var.datadog_app_key
       validate = false
-      #api_url = "https://api.ddog-gov.com/"
+      api_url = "https://api.${var._site}/"
 }
