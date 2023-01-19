@@ -165,6 +165,7 @@ spec:
     metadata:
       annotations:
         ad.datadoghq.com/result.logs: '[{"source":"nodejs","service":"result"}]'
+        admission.datadoghq.com/js-lib.version: "v3.10.0"
       labels:
         app: result
         tags.datadoghq.com/env: "sandbox"
@@ -173,28 +174,11 @@ spec:
     spec:
       containers:
       - name: result
-        image: cjl425/result-dd:latest
+        image: dockersamples/examplevotingapp_result
         ports:
         - containerPort: 80
           name: result
         env:
-                - name: DD_AGENT_HOST
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: status.hostIP
-                - name: DD_ENV
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/env']
-                - name: DD_SERVICE
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/service']
-                - name: DD_VERSION
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/version']
-            
                 - name: DD_PROFILING_ENABLED
                   value: "true"
                 - name: DD_LOGS_INJECTION
@@ -235,6 +219,7 @@ spec:
     metadata:
       annotations:
         ad.datadoghq.com/vote.logs: '[{"source":"gunicorn","service":"vote"}]'
+        admission.datadoghq.com/python-lib.version: "v1.7.2"
       labels:
         app: vote
         tags.datadoghq.com/env: "sandbox"
@@ -243,28 +228,11 @@ spec:
     spec:
       containers:
       - name: vote
-        image: cjl425/vote-dd:latest
+        image: dockersamples/examplevotingapp_vote
         ports:
         - containerPort: 80
           name: vote
-        env:
-                - name: DD_AGENT_HOST
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: status.hostIP
-                - name: DD_ENV
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/env']
-                - name: DD_SERVICE
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/service']
-                - name: DD_VERSION
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/version']
-            
+        env:            
                 - name: DD_PROFILING_ENABLED
                   value: "true"
                 - name: DD_LOGS_INJECTION
@@ -311,23 +279,6 @@ spec:
       - image: cjl425/worker-net-dd:latest
         name: worker
         env:
-                - name: DD_AGENT_HOST
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: status.hostIP
-                - name: DD_ENV
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/env']
-                - name: DD_SERVICE
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/service']
-                - name: DD_VERSION
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: metadata.labels['tags.datadoghq.com/version']
-            
                 - name: CORECLR_ENABLE_PROFILING
                   value: "1"
                 - name: CORECLR_PROFILER

@@ -9,31 +9,6 @@
     <meta name="author" content="Docker">
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
-    <script>
-      (function(h,o,u,n,d) {
-        h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}}
-        d=o.createElement(u);d.async=1;d.src=n
-        n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)
-      })(window,document,'script','https://www.datadoghq-browser-agent.com/datadog-rum-v4.js','DD_RUM')
-      DD_RUM.onReady(function() {
-        DD_RUM.init({
-          clientToken: 'pub213f7fc61856857bfc6f84c57005889a',
-          applicationId: '059a801c-c818-46c6-b429-1b5ed4b63950',
-          site: 'datadoghq.com',
-          service: 'result',
-          env: 'sandbox-java',
-          // Specify a version number to identify the deployed version of your application in Datadog 
-          // version: '1.0.0',
-          sampleRate: 100,
-          premiumSampleRate: 100,
-          trackInteractions: true,
-          defaultPrivacyLevel: 'mask-user-input',
-        });
-    
-        DD_RUM.startSessionReplayRecording();
-      })
-    </script>
-
   </head>
   <body ng-controller="statsCtrl" >
      <div id="background-stats">
