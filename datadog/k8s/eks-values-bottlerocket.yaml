@@ -27,6 +27,10 @@ datadog:
   networkMonitoring:
     enabled: true
 clusterAgent:
+  admissionController:
+    enabled: true
+    # clusterAgent.admissionController.mutateUnlabelled -- Enable injecting config without having the pod label 'admission.datadoghq.com/enabled="true". See -- https://docs.datadoghq.com/containers/cluster_agent/admission_controller/?tab=helm'
+    mutateUnlabelled: true
   confd:
     kube_apiserver_metrics.yaml: |-
       cluster_check: true

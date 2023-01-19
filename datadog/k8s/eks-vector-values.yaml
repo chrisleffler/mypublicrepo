@@ -21,6 +21,10 @@ datadog:
   networkMonitoring:
     enabled: true
 clusterAgent:
+  admissionController:
+    enabled: true
+    # clusterAgent.admissionController.mutateUnlabelled -- Enable injecting config without having the pod label 'admission.datadoghq.com/enabled="true". See -- https://docs.datadoghq.com/containers/cluster_agent/admission_controller/?tab=helm'
+    mutateUnlabelled: true
   confd:
     kube_apiserver_metrics.yaml: |-
       cluster_check: true
@@ -41,8 +45,6 @@ agents:
   customAgentConfig:
     kubelet_tls_verify: false
     ### Use below if running DDOG Agent < 7.39
-    apm_config:
-      apm_dd_url: "http://vector.vector:8282"
     vector:
       logs:
         enabled: true
@@ -50,7 +52,6 @@ agents:
       metrics:
         enabled: true
         url: "http://vector.vector:8282"
-      ### Only valid if running DDOG Agent > 7.39
-      # traces:
-      #   enabled: true
-      #   url: "http://vector.vector:8282"
+      traces:
+        enabled: true
+        url: "http://vector.vector:8282"

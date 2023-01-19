@@ -37,6 +37,10 @@ agents:
     key: node-role.kubernetes.io/infra
     operator: Exists
 clusterAgent:
+  admissionController:
+    enabled: true
+    # clusterAgent.admissionController.mutateUnlabelled -- Enable injecting config without having the pod label 'admission.datadoghq.com/enabled="true". See -- https://docs.datadoghq.com/containers/cluster_agent/admission_controller/?tab=helm'
+    mutateUnlabelled: true
   podSecurity:
     securityContextConstraints:
       create: true
