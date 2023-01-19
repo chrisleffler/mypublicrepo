@@ -289,36 +289,36 @@ customConfig:
         multiple_outputs: true
         store_api_key: false
    
-    transforms:
-      remap_trace_namespace:
-        type: remap
-        inputs: 
-          - my_datadog_agent.traces
-        source: |-
-          tags = get!(value: .tags, path: ["_dd.tags.container"])
-          json = parse_key_value!(value: tags, key_value_delimiter: ":", field_delimiter:",")
-          .tags.kube_namespace = get!(value: json, path: ["kube_namespace"])
-      route_traces:
-        type: route
-        inputs: 
-          - remap_trace_namespace
-        route: 
-          vote: .tags.kube_namespace == "vote"
+    # transforms:
+    #   remap_trace_namespace:
+    #     type: remap
+    #     inputs: 
+    #       - my_datadog_agent.traces
+    #     source: |-
+    #       tags = get!(value: .tags, path: ["_dd.tags.container"])
+    #       json = parse_key_value!(value: tags, key_value_delimiter: ":", field_delimiter:",")
+    #       .tags.kube_namespace = get!(value: json, path: ["kube_namespace"])
+    #   route_traces:
+    #     type: route
+    #     inputs: 
+    #       - remap_trace_namespace
+    #     route: 
+    #       vote: .tags.kube_namespace == "vote"
       
-      remap_log_namespace:
-        type: remap
-        inputs: 
-          - my_datadog_agent.logs
-        source: |-
-          tags = get!(value: ., path: ["ddtags"])
-          json = parse_key_value!(value: tags, key_value_delimiter: ":", field_delimiter:",")
-          .tags.kube_namespace = get!(value: json, path: ["kube_namespace"])
-      route_logs:
-        type: route
-        inputs: 
-          - remap_log_namespace
-        route:
-          vote: .tags.kube_namespace == "vote"
+    #   remap_log_namespace:
+    #     type: remap
+    #     inputs: 
+    #       - my_datadog_agent.logs
+    #     source: |-
+    #       tags = get!(value: ., path: ["ddtags"])
+    #       json = parse_key_value!(value: tags, key_value_delimiter: ":", field_delimiter:",")
+    #       .tags.kube_namespace = get!(value: json, path: ["kube_namespace"])
+    #   route_logs:
+    #     type: route
+    #     inputs: 
+    #       - remap_log_namespace
+    #     route:
+    #       vote: .tags.kube_namespace == "vote"
 
     sinks:
       # test_traces:
@@ -336,29 +336,29 @@ customConfig:
       my_datadog_sandbox_traces:
         type: datadog_traces
         inputs: 
-          - route_traces._unmatched
+          - my_datadog_agent.traces
         default_api_key: ${DD_SAND_KEY}
       my_datadog_sandbox_logs:
         type: datadog_logs
         inputs: 
-          - route_logs._unmatched
+          - my_datadog_agent.logs
         default_api_key: ${DD_SAND_KEY}
       
-      my_datadog_sandbox2_metrics:
-        type: datadog_metrics
-        inputs: 
-          - my_datadog_agent.metrics
-        default_api_key: ${DD_SAND_KEY}
-      my_datadog_sandbox2_traces:
-        type: datadog_traces
-        inputs: 
-          - route_traces.vote
-        default_api_key: ${DD_SAND2_KEY}
-      my_datadog_sandbox2_logs:
-        type: datadog_logs
-        inputs: 
-          - route_logs.vote
-        default_api_key: ${DD_SAND2_KEY}
+      # my_datadog_sandbox2_metrics:
+      #   type: datadog_metrics
+      #   inputs: 
+      #     - my_datadog_agent.metrics
+      #   default_api_key: ${DD_SAND_KEY}
+      # my_datadog_sandbox2_traces:
+      #   type: datadog_traces
+      #   inputs: 
+      #     - route_traces.vote
+      #   default_api_key: ${DD_SAND2_KEY}
+      # my_datadog_sandbox2_logs:
+      #   type: datadog_logs
+      #   inputs: 
+      #     - route_logs.vote
+      #   default_api_key: ${DD_SAND2_KEY}
 
   
 # extraVolumes -- Additional Volumes to use with Vector Pods
