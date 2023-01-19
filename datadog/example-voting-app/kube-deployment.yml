@@ -171,7 +171,7 @@ spec:
         tags.datadoghq.com/env: "sandbox"
         tags.datadoghq.com/service: "result"
         tags.datadoghq.com/version: "1.0"
-    spec:
+    pec:
       containers:
       - name: result
         image: dockersamples/examplevotingapp_result
@@ -239,6 +239,8 @@ spec:
                   value: "true"
                 - name: DD_SERVICE_MAPPING
                   value: "redis:vote-redis"
+                - name: DD_GEVENT_PATCH_ALL
+                  value: "1"
 
 # worker
 --- 
