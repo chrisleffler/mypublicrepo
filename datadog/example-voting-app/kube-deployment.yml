@@ -171,7 +171,7 @@ spec:
         tags.datadoghq.com/env: "sandbox"
         tags.datadoghq.com/service: "result"
         tags.datadoghq.com/version: "1.0"
-    pec:
+    spec:
       containers:
       - name: result
         image: dockersamples/examplevotingapp_result
@@ -228,7 +228,7 @@ spec:
     spec:
       containers:
       - name: vote
-        image: dockersamples/examplevotingapp_vote
+        image: cjl425/vote-dd:latest
         ports:
         - containerPort: 80
           name: vote
@@ -239,8 +239,6 @@ spec:
                   value: "true"
                 - name: DD_SERVICE_MAPPING
                   value: "redis:vote-redis"
-                - name: DD_GEVENT_PATCH_ALL
-                  value: "1"
 
 # worker
 --- 
@@ -289,5 +287,9 @@ spec:
                   value: "/opt/datadog/Datadog.Trace.ClrProfiler.Native.so"
                 - name: DD_DOTNET_TRACER_HOME
                   value: "/opt/datadog"
+                - name: LD_PRELOAD
+                  value: "/opt/datadog/continuousprofiler/Datadog.Linux.ApiWrapper.x64.so"
+                - name: DD_PROFILING_ENABLED
+                  value: "1"
                 - name: DD_RUNTIME_METRICS_ENABLED
                   value: "true"
