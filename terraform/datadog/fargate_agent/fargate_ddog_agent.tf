@@ -47,6 +47,10 @@ resource "aws_ecs_task_definition" "datadog_monitored" {
         {
           name = "DD_APM_ENABLED"
           value = "true"
+        },
+        {
+          name = "DD_APM_REPLACE_TAGS"
+          value = jsonencode([{"name"= "resource.name", "pattern"= "get_/plan/[0-9]+/[A-Za-z][0-9]+/[0-9]+/[0-9]+", "repl"= "get_/plan/{year}/{contract_id}/{plan_id}/{segment_id}"}])
         }
       ]
     }//,
