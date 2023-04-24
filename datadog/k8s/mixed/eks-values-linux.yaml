@@ -1,3 +1,8 @@
+targetSystem: "linux"
+kube-state-metrics:
+  nodeSelector:
+    # beta.kubernetes.io/os: linux ## Kubernetes < 1.14
+    kubernetes.io/os: linux ## Kubernetes >= 1.14
 datadog:
   apiKeyExistingSecret: datadog-keys
   # Uncomment site: if using a Datadog Organization outside of US1

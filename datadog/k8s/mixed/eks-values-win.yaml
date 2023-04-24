@@ -1,0 +1,24 @@
+targetSystem: "windows"
+existingClusterAgent:
+  join: true
+  serviceName: "dca-cluster-agent" # from the first Datadog Helm chart
+  tokenSecretName: "datadog-cluster-agent" # from the first Datadog Helm chart
+# Disable datadogMetrics deployment since it should have been already deployed with the first chart.
+datadog-crds:
+  crds:
+    datadogMetrics: false
+# Disable kube-state-metrics deployment
+datadog:
+  kubeStateMetricsEnabled: false
+  apiKeyExistingSecret: datadog-keys
+  # Uncomment site: if using a Datadog Organization outside of US1
+  # site: ddog-gov.com
+  apm:
+    portEnabled: true
+  logs:
+    enabled: true
+    containerCollectAll: true
+  dogstatsd:
+    useHostPort: true
+  networkMonitoring:
+    enabled: true
