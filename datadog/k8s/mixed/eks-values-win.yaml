@@ -1,7 +1,7 @@
 targetSystem: "windows"
 existingClusterAgent:
   join: true
-  serviceName: "dca-cluster-agent" # from the first Datadog Helm chart
+  serviceName: "datadog-cluster-agent" # from the first Datadog Helm chart
   tokenSecretName: "datadog-cluster-agent" # from the first Datadog Helm chart
 # Disable datadogMetrics deployment since it should have been already deployed with the first chart.
 datadog-crds:
@@ -13,12 +13,22 @@ datadog:
   apiKeyExistingSecret: datadog-keys
   # Uncomment site: if using a Datadog Organization outside of US1
   # site: ddog-gov.com
+  env:
+    - name: DD_EC2_PREFER_IMDSV2
+      value: "true"
+    - name: DD_INVENTORIES_CONFIGURATION_ENABLED
+      value: "true"
+  dogstatsd:
+    useSocketVolume: false
+  processAgent:
+    enabled: true
   apm:
-    portEnabled: true
+    socketEnabled: false
   logs:
     enabled: true
     containerCollectAll: true
-  dogstatsd:
-    useHostPort: true
   networkMonitoring:
     enabled: true
+agents:
+  tolerations:
+  - operator: Exists
