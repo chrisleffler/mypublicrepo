@@ -1,0 +1,77 @@
+# Service Definition with v2.1 Schema Definition - service 1
+resource "datadog_service_definition_yaml" "service_definition_v2_1" {
+  service_definition = <<EOF
+schema-version: v2.1
+dd-service: web
+team: web
+contacts:
+  - name: Support Email
+    type: email
+    contact: team@shopping.com
+  - name: Support Slack
+    type: slack
+    contact: https://www.slack.com/archives/shopping-cart
+description: shopping cart service responsible for managing shopping carts
+tier: high
+lifecycle: production
+application: e-commerce
+links:
+  - name: shopping-cart runbook
+    type: runbook
+    url: https://runbook/shopping-cart
+  - name: shopping-cart architecture
+    type: doc
+    provider: gdoc
+    url: https://google.drive/shopping-cart-architecture
+  - name: shopping-cart service Wiki
+    type: doc
+    provider: wiki
+    url: https://wiki/shopping-cart
+  - name: shopping-cart source code
+    type: repo
+    provider: github
+    url: http://github/shopping-cart
+tags:
+  - business-unit:retail
+  - cost-center:engineering
+integrations:
+  pagerduty: 
+    service-url: https://www.pagerduty.com/service-directory/Pshopping-cart
+EOF
+}
+
+# Service Definition with v2 Schema Definition - service 2
+resource "datadog_service_definition_yaml" "service_definition_v2" {
+  service_definition = <<EOF
+schema-version: v2
+dd-service: db
+team: db
+contacts:
+  - name: Support Email
+    type: email
+    contact: team@shopping.com
+  - name: Support Slack
+    type: slack
+    contact: https://www.slack.com/archives/shopping-cart
+repos:
+  - name: shopping-cart source code
+    provider: github
+    url: http://github/shopping-cart
+docs:
+  - name: shopping-cart architecture
+    provider: gdoc
+    url: https://google.drive/shopping-cart-architecture
+  - name: shopping-cart service Wiki
+    provider: wiki
+    url: https://wiki/shopping-cart
+links:
+  - name: shopping-cart runbook
+    type: runbook
+    url: https://runbook/shopping-cart
+tags:
+  - business-unit:retail
+  - cost-center:engineering
+integrations:
+  pagerduty: https://www.pagerduty.com/service-directory/Pshopping-cart
+EOF
+}
