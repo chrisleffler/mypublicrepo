@@ -7,6 +7,7 @@ datadog:
   logs:
     enabled: true
     containerCollectAll: true
+    autoMultiLineDetection: true
   processAgent:
     processCollection: true
   dogstatsd:
@@ -18,13 +19,16 @@ datadog:
     tlsVerify: false
   networkMonitoring:
     enabled: true
+  env:
+    - name: DD_EC2_PREFER_IMDSV2
+      value: "true"
+    - name: DD_INVENTORIES_CONFIGURATION_ENABLED
+      value: "true"
 clusterAgent:
   admissionController:
     enabled: true
     # clusterAgent.admissionController.mutateUnlabelled -- Enable injecting config without having the pod label 'admission.datadoghq.com/enabled="true". See -- https://docs.datadoghq.com/containers/cluster_agent/admission_controller/?tab=helm'
-    mutateUnlabelled: true
-    remoteInstrumentation:
-      enabled: true
+    mutateUnlabelled: false
   confd:
     kube_apiserver_metrics.yaml: |-
       cluster_check: true
