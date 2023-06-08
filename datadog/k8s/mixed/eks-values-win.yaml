@@ -3,6 +3,7 @@ existingClusterAgent:
   join: true
   serviceName: "datadog-cluster-agent" # from the first Datadog Helm chart
   tokenSecretName: "datadog-cluster-agent" # from the first Datadog Helm chart
+  clusterchecksEnabled: false # stops DCA from schedule cluster checks on any windows agents
 # Disable datadogMetrics deployment since it should have been already deployed with the first chart.
 datadog-crds:
   crds:
@@ -20,15 +21,19 @@ datadog:
       value: "true"
   dogstatsd:
     useSocketVolume: false
+  kubeStateMetricsCore:
+    enabled: false 
   processAgent:
-    enabled: true
+    enabled: true # enables orchestrator data collection
+    processCollection: false # not supported on Windows Nodes/Containers
   apm:
-    socketEnabled: false
+    socketEnabled: false # not supported on Windows Nodes/Containers
+    portEnabled: true
   logs:
     enabled: true
     containerCollectAll: true
-  networkMonitoring:
-    enabled: true
+    autoMultiLineDetection: true
 agents:
   tolerations:
   - operator: Exists
+  forceLocalServiceEnabled: true

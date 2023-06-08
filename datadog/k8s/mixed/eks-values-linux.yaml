@@ -12,12 +12,14 @@ datadog:
   logs:
     enabled: true
     containerCollectAll: true
+    autoMultiLineDetection: true
   processAgent:
     processCollection: true
   dogstatsd:
     useHostPort: true
   kubeStateMetricsCore:
     enabled: true
+    useClusterCheckRunners: true
   kubeStateMetricsEnabled: false
   kubelet:
     tlsVerify: false
@@ -33,7 +35,7 @@ clusterAgent:
     token: "ftuJgUvPYMJyCiWLpxiUyerNgMFVFttj" ## can be at least 32 characters a-zA-Z
     enabled: true
     # clusterAgent.admissionController.mutateUnlabelled -- Enable injecting config without having the pod label 'admission.datadoghq.com/enabled="true". See -- https://docs.datadoghq.com/containers/cluster_agent/admission_controller/?tab=helm'
-    mutateUnlabelled: true
+    mutateUnlabelled: false
     remoteInstrumentation:
       enabled: true
   confd:

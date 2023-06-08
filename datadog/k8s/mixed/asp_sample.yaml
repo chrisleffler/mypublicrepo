@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: sample
+  name: sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: sample
+  template:
+    metadata:
+      labels:
+        run: sample
+    spec:
+      containers:
+      - name: sample
+        image: jenksgibbons/dnet_sample # sample image
+        ports:
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: DD_AGENT_HOST
+            value: "datadog-win.datadog.svc.cluster.local"
+          - name: DD_PROFILING_ENABLED
+            value: "1"
+          - name: DD_TRACE_DEBUG
+            value: "true"
+          - name: DD_RUNTIME_METRICS_ENABLED
+            value: "true"
+          - name: DD_ENV
+            value: "sandbox"
+          - name: DD_SERVICE
+            value: "asp-sample"
+          - name: DD_VERSION
+            value: "1.0"
+      nodeSelector:
+        kubernetes.io/os: windows
+      tolerations:
+      - key: "node.kubernetes.io/os"
+        operator: "Equal"
+        value: "windows"
