@@ -2,6 +2,7 @@ datadog:
   apiKeyExistingSecret: datadog-keys
   # Uncomment site: if using a Datadog Organization outside of US1
   # site: ddog-gov.com
+  # Manually set cluster name; unable to pull from cloud providers
   clusterName: <CLUSTER_NAME>
   criSocketPath: /var/run/crio/crio.sock
   apm:
@@ -19,8 +20,6 @@ datadog:
   kubeStateMetricsCore:
     enabled: true
   kubeStateMetricsEnabled: false
-  # Uncomment if running OCP on a supported cloud platform
-  # useHostNetwork: true
   # Depending on your DNS/SSL setup, it might not be possible to verify the Kubelet cert properly
   # If you have proper CA, you can switch kubelet.tlsVerify to true
   kubelet:
@@ -47,3 +46,6 @@ clusterAgent:
   podSecurity:
     securityContextConstraints:
       create: true
+kube-state-metrics:
+  securityContext:
+    enabled: false
