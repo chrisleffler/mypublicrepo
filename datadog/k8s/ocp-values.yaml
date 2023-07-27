@@ -38,6 +38,8 @@ agents:
   - effect: NoSchedule
     key: node-role.kubernetes.io/infra
     operator: Exists
+  # Uncomment if you are running on a supported cloud provider.
+  # useHostNetwork: true
 clusterAgent:
   admissionController:
     enabled: true
@@ -46,6 +48,36 @@ clusterAgent:
   podSecurity:
     securityContextConstraints:
       create: true
+  confd:
+    kube_controller_manager.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+        - prometheus_url: https://kube-controller-manager.openshift-kube-controller-manager/metrics
+          ssl_verify: false
+          bearer_token_auth: true
+          leader_election: false
+    kube_scheduler.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+        - prometheus_url: https://scheduler.openshift-kube-scheduler/metrics
+          ssl_verify: false
+          bearer_token_auth: true
+    kube_apiserver_metrics.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+        - prometheus_url: https://apiserver.openshift-kube-apiserver/metrics
+          ssl_verify: false
+          bearer_token_auth: true
+    coredns.yaml: |-
+      cluster_check: true
+      init_config:
+      instances:
+        - prometheus_url: https://dns-default.openshift-dns:9154/metrics
+          ssl_verify: false
+          bearer_token_auth: true
 kube-state-metrics:
   securityContext:
     enabled: false
