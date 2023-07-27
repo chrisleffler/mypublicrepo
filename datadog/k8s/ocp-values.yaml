@@ -4,11 +4,6 @@ datadog:
   # site: ddog-gov.com
   clusterName: <CLUSTER_NAME>
   criSocketPath: /var/run/crio/crio.sock
-  # Depending on your DNS/SSL setup, it might not be possible to verify the Kubelet cert properly
-  # If you have proper CA, you can switch kubelet.tlsVerify to true
-  kubelet:
-    tlsVerify: false
-  inventories_configuration_enabled: true
   apm:
     portEnabled: true
   dogstatsd:
@@ -16,15 +11,23 @@ datadog:
   logs:
     enabled: true
     containerCollectAll: true
-  # Uncomment if running OCP on a supported cloud platform
-  # useHostNetwork: true
+    autoMultiLineDetection: true
+  networkMonitoring:
+    enabled: true
   processAgent:
     processCollection: true
   kubeStateMetricsCore:
     enabled: true
   kubeStateMetricsEnabled: false
-  networkMonitoring:
-    enabled: true
+  # Uncomment if running OCP on a supported cloud platform
+  # useHostNetwork: true
+  # Depending on your DNS/SSL setup, it might not be possible to verify the Kubelet cert properly
+  # If you have proper CA, you can switch kubelet.tlsVerify to true
+  kubelet:
+    tlsVerify: false
+  env:
+    - name: DD_INVENTORIES_CONFIGURATION_ENABLED
+      value: "true"
 agents:
   podSecurity:
     securityContextConstraints:
@@ -40,7 +43,7 @@ clusterAgent:
   admissionController:
     enabled: true
     # clusterAgent.admissionController.mutateUnlabelled -- Enable injecting config without having the pod label 'admission.datadoghq.com/enabled="true". See -- https://docs.datadoghq.com/containers/cluster_agent/admission_controller/?tab=helm'
-    mutateUnlabelled: true
+    mutateUnlabelled: false
   podSecurity:
     securityContextConstraints:
       create: true

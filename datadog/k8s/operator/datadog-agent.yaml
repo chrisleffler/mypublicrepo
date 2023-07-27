@@ -1,0 +1,58 @@
+kind: DatadogAgent
+apiVersion: datadoghq.com/v2alpha1
+metadata:
+  name: datadog
+spec:
+  global:
+    ## Replace <DATADOG_SITE> with your Datadog site - https://docs.datadoghq.com/getting_started/site
+    site: <DATADOG_SITE>
+    credentials:
+      apiSecret:
+        secretName: datadog-secret
+        keyName: api-key
+      appSecret:
+        secretName: datadog-secret
+        keyName: app-key
+  features:
+    apm:
+      enabled: true
+    dogstatsd:
+      hostPortConfig:
+        enabled: true
+        hostPort: 8215
+    npm:
+      enabled: true
+    liveProcessCollection:
+      enabled: true
+    logCollection:
+      enabled: true
+      containerCollectAll: true
+    admissionController:
+      enabled: true
+    cspm:
+      enabled: true
+    cws:
+      enabled: true
+  override:
+    clusterAgent:
+      image:
+        name: gcr.io/datadoghq/cluster-agent:latest
+      extraConfd:
+        configDataMap:
+          kube_apiserver_metrics.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - prometheus_url: https://kubernetes.default/metrics
+                ssl_ca_cert: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                bearer_token_auth: true
+          kube_controller_manager.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - prometheus_url: https://kubernetes.default/metrics
+                ssl_ca_cert: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                bearer_token_auth: true
+    nodeAgent:
+      image:
+        name: gcr.io/datadoghq/agent:latest
