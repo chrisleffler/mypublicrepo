@@ -10,9 +10,10 @@ spec:
       apiSecret:
         secretName: datadog-secret
         keyName: api-key
-      appSecret:
-        secretName: datadog-secret
-        keyName: app-key
+      #Uncommment if using spec.features.externalMetricsServer.enabled: true
+      ##appSecret:
+      ####secretName: datadog-secret
+      ####keyName: app-key
     # Manually set cluster name; unable to pull from cloud providers
     clusterName: <CLUSTER_NAME>
     kubelet:
