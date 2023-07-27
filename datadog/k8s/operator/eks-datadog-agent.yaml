@@ -4,35 +4,52 @@ metadata:
   name: datadog
 spec:
   global:
-    ## Replace <DATADOG_SITE> with your Datadog site - https://docs.datadoghq.com/getting_started/site
-    site: <DATADOG_SITE>
+    # Update site if using a Datadog organization outside of US-FED
+    site: ddog-gov.com
     credentials:
       apiSecret:
         secretName: datadog-secret
         keyName: api-key
-      appSecret:
-        secretName: datadog-secret
-        keyName: app-key
+      #Uncommment if using spec.features.externalMetricsServer
+      ##appSecret:
+      ####secretName: datadog-secret
+      ####keyName: app-key
+    kubelet:
+      tlsVerify: false
   features:
     apm:
       enabled: true
+      hostPortConfig:
+        enabled: true
+        hostPort: 8126
+      unixDomainSocketConfig:
+        enabled: true
     dogstatsd:
       hostPortConfig:
         enabled: true
-        hostPort: 8215
-    npm:
-      enabled: true
-    liveProcessCollection:
-      enabled: true
+        hostPort: 8125
     logCollection:
       enabled: true
       containerCollectAll: true
-    admissionController:
+    liveProcessCollection:
+      enabled: true
+    liveContainerCollection:
+      enabled: true
+    kubeStateMetricsCore:
       enabled: true
     cspm:
-      enabled: true
+      enabled: false
     cws:
+      enabled: false
+    npm:
       enabled: true
+    admissionController:
+      enabled: true
+      mutateUnlabelled: false
+    externalMetricsServer:
+      enabled: false
+      useDatadogMetrics: false
+      port: 8443
   override:
     clusterAgent:
       image:

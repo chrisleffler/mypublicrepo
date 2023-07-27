@@ -1,0 +1,100 @@
+kind: DatadogAgent
+apiVersion: datadoghq.com/v2alpha1
+metadata:
+  name: datadog
+spec:
+  global:
+    # Update site if using a Datadog organization outside of US-FED
+    site: ddog-gov.com
+    credentials:
+      apiSecret:
+        secretName: datadog-secret
+        keyName: api-key
+      appSecret:
+        secretName: datadog-secret
+        keyName: app-key
+    # Manually set cluster name; unable to pull from cloud providers
+    clusterName: <CLUSTER_NAME>
+    kubelet:
+      tlsVerify: false
+    criSocketPath: /var/run/crio/crio.sock
+  features:
+    apm:
+      enabled: true
+      hostPortConfig:
+        enabled: false
+        hostPort: 8126
+      unixDomainSocketConfig:
+        enabled: true
+    dogstatsd:
+      hostPortConfig:
+        enabled: true
+        hostPort: 8125
+    logCollection:
+      enabled: true
+      containerCollectAll: true
+    liveProcessCollection:
+      enabled: true
+    liveContainerCollection:
+      enabled: true
+    kubeStateMetricsCore:
+      enabled: true
+    cspm:
+      enabled: false
+    cws:
+      enabled: false
+    npm:
+      enabled: true
+    admissionController:
+      enabled: true
+      mutateUnlabelled: false
+    externalMetricsServer:
+      enabled: false
+      useDatadogMetrics: false
+      port: 8443
+  override:
+    clusterAgent:
+      image:
+        name: gcr.io/datadoghq/cluster-agent:latest
+      extraConfd:
+        configDataMap:
+          kube_controller_manager.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - prometheus_url: https://kube-controller-manager.openshift-kube-controller-manager/metrics
+                ssl_verify: false
+                bearer_token_auth: true
+                leader_election: false
+          kube_scheduler.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - prometheus_url: https://scheduler.openshift-kube-scheduler/metrics
+                ssl_verify: false
+                bearer_token_auth: true
+          kube_apiserver_metrics.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - prometheus_url: https://apiserver.openshift-kube-apiserver/metrics
+                ssl_verify: false
+                bearer_token_auth: true
+          coredns.yaml: |-
+            cluster_check: true
+            init_config:
+            instances:
+              - prometheus_url: https://dns-default.openshift-dns:9154/metrics
+                ssl_verify: false
+                bearer_token_auth: true
+    nodeAgent:
+      serviceAccountName: datadog-agent-scc
+      image:
+        name: gcr.io/datadoghq/agent:latest
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+        - key: node-role.kubernetes.io/infra
+          operator: Exists
+          effect: NoSchedule
