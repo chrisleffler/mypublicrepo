@@ -73,3 +73,8 @@ spec:
     nodeAgent:
       image:
         name: gcr.io/datadoghq/agent:latest
+      env:
+        - name: DD_EC2_PREFER_IMDSV2
+          value: "true"
+        - name: DD_INVENTORIES_CONFIGURATION_ENABLED
+          value: "true"

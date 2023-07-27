@@ -92,6 +92,9 @@ spec:
       serviceAccountName: datadog-agent-scc
       image:
         name: gcr.io/datadoghq/agent:latest
+      env:
+        - name: DD_INVENTORIES_CONFIGURATION_ENABLED
+          value: "true"      
       tolerations:
         - key: node-role.kubernetes.io/master
           operator: Exists
