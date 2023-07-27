@@ -4,8 +4,8 @@ metadata:
   name: datadog
 spec:
   global:
-    # Update site if using a Datadog organization outside of US-FED
-    site: ddog-gov.com
+    # Update site if using a Datadog organization outside of US
+    site: datadoghq.com
     credentials:
       apiSecret:
         secretName: datadog-secret
