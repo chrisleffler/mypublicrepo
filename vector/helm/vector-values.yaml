@@ -281,13 +281,22 @@ customConfig:
       api_key: ${OP_API_KEY}
       configuration_key: ${OP_CONF_KEY}
       site: datadoghq.com
-  
+
     sources:
-      my_datadog_agent:
-        type: datadog_agent
-        address: 0.0.0.0:8282
-        multiple_outputs: true
-        store_api_key: false
+      #my_datadog_agent:
+      #  type: datadog_agent
+      #  address: 0.0.0.0:8282
+      #  multiple_outputs: true
+      #  store_api_key: false
+      azure_eventhub:
+        type: kafka
+        bootstrap_servers: ddogtest.servicebus.windows.net
+        group_id: ddogtest
+        topics:
+          - aad
+
+
+
    
     # transforms:
     #   remap_trace_namespace:

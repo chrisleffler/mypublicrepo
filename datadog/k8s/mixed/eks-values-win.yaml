@@ -35,5 +35,8 @@ datadog:
     autoMultiLineDetection: true
 agents:
   tolerations:
-  - operator: Exists
+  - effect: NoSchedule
+    key: os
+    value: windows
+    operator: Exists
   forceLocalServiceEnabled: true

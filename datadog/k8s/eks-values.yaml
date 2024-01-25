@@ -1,5 +1,7 @@
 datadog:
   apiKeyExistingSecret: datadog-keys
+  remoteConfiguration:
+    enabled: true
   # Uncomment site: if using a Datadog Organization outside of US1
   # site: ddog-gov.com
   apm:
@@ -19,11 +21,26 @@ datadog:
     tlsVerify: false
   networkMonitoring:
     enabled: true
+  securityAgent:
+    runtime:
+      enabled: true
+    compliance:
+      enabled: true
+      host_benchmarks:
+        enabled: true
   env:
     - name: DD_EC2_PREFER_IMDSV2
       value: "true"
     - name: DD_INVENTORIES_CONFIGURATION_ENABLED
       value: "true"
+agents:
+  tolerations:
+  - effect: NoSchedule
+    key: app
+    operator: Exists
+  - effect: NoSchedule
+    key: app-plane
+    operator: Exists
 clusterAgent:
   admissionController:
     enabled: true
